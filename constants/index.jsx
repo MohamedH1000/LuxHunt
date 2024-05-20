@@ -1,0 +1,92 @@
+export const themes = [
+  { value: "light", label: "Light", icon: "/assets/icons/sun.svg" },
+  { value: "dark", label: "Dark", icon: "/assets/icons/moon.svg" },
+  { value: "system", label: "System", icon: "/assets/icons/computer.svg" },
+];
+
+export const products = [
+  {
+    id: 1,
+    name: "High-Performance Laptop",
+    category: "Laptops",
+    price: 1200,
+    description: "High-performance laptop with 16GB RAM and 512GB SSD.",
+    location: "New York, USA",
+    certifications: ["ISO 9001", "Energy Star"],
+    rulesForWarrantyAndReturn: {
+      warranty: "2 years",
+      return: "30 days return policy",
+    },
+    image: "/assets/images/logo.png",
+  },
+  {
+    id: 2,
+    name: "Lightweight Laptop",
+    category: "Laptops",
+    price: 950,
+    description: "Lightweight laptop with 8GB RAM and 256GB SSD.",
+    location: "San Francisco, USA",
+    certifications: ["ISO 9001"],
+    rulesForWarrantyAndReturn: {
+      warranty: "1 year",
+      return: "15 days return policy",
+    },
+    image: "https://example.com/laptop2.jpg",
+  },
+  {
+    id: 3,
+    name: "Ergonomic Wireless Mouse",
+    category: "Accessories",
+    price: 25,
+    description: "Wireless mouse with ergonomic design.",
+    location: "Los Angeles, USA",
+    certifications: ["CE", "FCC"],
+    rulesForWarrantyAndReturn: {
+      warranty: "6 months",
+      return: "30 days return policy",
+    },
+    image: "https://example.com/mouse.jpg",
+  },
+  {
+    id: 4,
+    name: "Backlit Keyboard",
+    category: "Accessories",
+    price: 15,
+    description: "Keyboard with backlit keys and quiet typing.",
+    location: "Chicago, USA",
+    certifications: ["CE", "FCC"],
+    rulesForWarrantyAndReturn: {
+      warranty: "1 year",
+      return: "30 days return policy",
+    },
+    image: "https://example.com/keyboard.jpg",
+  },
+  {
+    id: 5,
+    name: "Smartwatch with Heart Rate Monitor",
+    category: "Watches",
+    price: 250,
+    description: "Smartwatch with heart rate monitor and GPS.",
+    location: "Miami, USA",
+    certifications: ["ISO 9001", "Waterproof"],
+    rulesForWarrantyAndReturn: {
+      warranty: "1 year",
+      return: "30 days return policy",
+    },
+    image: "https://example.com/smartwatch.jpg",
+  },
+  {
+    id: 6,
+    name: "Classic Leather Strap Watch",
+    category: "Watches",
+    price: 180,
+    description: "Classic watch with leather strap and analog display.",
+    location: "Dallas, USA",
+    certifications: ["ISO 9001"],
+    rulesForWarrantyAndReturn: {
+      warranty: "2 years",
+      return: "45 days return policy",
+    },
+    image: "https://example.com/classicwatch.jpg",
+  },
+];
