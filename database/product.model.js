@@ -8,7 +8,7 @@ const ProductSchema = new Schema({
   location: [{ type: String, required: true }],
   certifications: [{ type: String }],
   warranty: { type: String },
-  return: [{ type: String }],
+  return: { type: String },
   selectedFile: [{ type: String }],
 });
 

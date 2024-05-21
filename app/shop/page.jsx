@@ -7,18 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { products } from "@/constants";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import { getProducts } from "@/lib/action/product.action";
+import { Toaster } from "@/components/ui/toaster";
 
 const Pieces = async () => {
-  const result = await getProducts();
-  console.log(result);
+  const result = await getProducts({});
+  // console.log("here is the result", result);
   return (
     <>
-      {products.length === 0 || products === "undefined" ? (
+      {result?.length === 0 || result === "undefined" ? (
         <div className="min-h-[90vh] flex justify-center items-center gap-5 flex-col">
           <h1 className="text-3xl font-bold">No products to display</h1>
           <Button className={"bg-black text-white text-3xl p-4 h-[80px]"}>
@@ -33,30 +32,42 @@ const Pieces = async () => {
           <div className="flex flex-col gap-5">
             <h4 className="text-xl font-bold">Products</h4>
             <div className="flex flex-wrap gap-3">
-              {products.map((product, i) => (
+              {result?.map((product, i) => (
                 <Card className="p-2 w-[300px] relative" key={i}>
                   <CardHeader>
-                    <img src={product?.image} alt="image" />
+                    <img
+                      src={product?.selectedFile}
+                      alt="image"
+                      className="rounded-md"
+                    />
                     <CardTitle>{product.name}</CardTitle>
                     <CardDescription>{product.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="h-auto">
-                    <p>Category: {product.category}</p>
                     <p>
-                      Price: <span className="font-bold">{product.price}</span>$
+                      Category:{" "}
+                      <span className="font-bold">{product.category}</span>
+                    </p>
+                    <p>
+                      Price: <span className="font-bold">{product.price}</span>{" "}
+                      ETH
                     </p>
                   </CardContent>
-                  <CardFooter>
-                    <Button className="bg-black text-white w-[270px] absolute bottom-3 left-3">
+                  <CardFooter className="flex flex-col gap-2 w-full">
+                    <Button className="bg-black text-white w-[270px] ">
                       <Link href={`/shop/${product.id}`}>
                         View Product Details
                       </Link>
+                    </Button>
+                    <Button className="bg-[blue] text-white w-[270px] ">
+                      Buy Product
                     </Button>
                   </CardFooter>
                 </Card>
               ))}
             </div>
           </div>
+          <Toaster />
         </div>
       )}
     </>
