@@ -6,6 +6,11 @@ const ThemeContext = createContext(undefined);
 
 export function ThemeProvider({ children }) {
   const [mode, setMode] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+  const [hasMetamask, setHasMetamask] = useState(false);
+  const [address, setAddress] = useState("");
+  const [balance, setBalance] = useState(null);
+  const [signer, setSigner] = useState(null);
 
   const handleThemeChange = () => {
     if (
@@ -26,7 +31,22 @@ export function ThemeProvider({ children }) {
   }, [mode]);
 
   return (
-    <ThemeContext.Provider value={{ mode, setMode }}>
+    <ThemeContext.Provider
+      value={{
+        mode,
+        setMode,
+        isConnected,
+        setIsConnected,
+        hasMetamask,
+        setHasMetamask,
+        address,
+        setAddress,
+        balance,
+        setBalance,
+        signer,
+        setSigner,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

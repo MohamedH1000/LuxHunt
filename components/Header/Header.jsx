@@ -5,17 +5,25 @@ import React, { useEffect, useState } from "react";
 import Theme from "../NavBar/Theme";
 import { Alchemy, Network } from "alchemy-sdk";
 import { ethers } from "ethers";
+import { useTheme } from "@/context/ThemeProvider";
 
 const settings = {
   apiKey: process.env.ALCHEMY_API_KEY,
   network: Network.ETH_SEPOLIA,
 };
 const Header = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [hasMetamask, setHasMetamask] = useState(false);
-  const [address, setAddress] = useState("");
-  const [balance, setBalance] = useState(null);
-  const [signer, setSigner] = useState(null);
+  const {
+    address,
+    setAddress,
+    balance,
+    setBalance,
+    signer,
+    setSigner,
+    hasMetamask,
+    setHasMetamask,
+    isConnected,
+    setIsConnected,
+  } = useTheme();
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {

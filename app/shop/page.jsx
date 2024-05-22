@@ -1,20 +1,15 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getProducts } from "@/lib/action/product.action";
 import { Toaster } from "@/components/ui/toaster";
-
+import ProductCard from "@/components/ProductCard/ProductCard";
 const Pieces = async () => {
   const result = await getProducts({});
-  // console.log("here is the result", result);
+  const plainResult = JSON.parse(JSON.stringify(result));
+  console.log("here is the result", result);
+
   return (
     <>
       {result?.length === 0 || result === "undefined" ? (
@@ -31,41 +26,7 @@ const Pieces = async () => {
           </div>
           <div className="flex flex-col gap-5">
             <h4 className="text-xl font-bold">Products</h4>
-            <div className="flex flex-wrap gap-3">
-              {result?.map((product, i) => (
-                <Card className="p-2 w-[300px] relative" key={i}>
-                  <CardHeader>
-                    <img
-                      src={product?.selectedFile}
-                      alt="image"
-                      className="rounded-md"
-                    />
-                    <CardTitle>{product.name}</CardTitle>
-                    <CardDescription>{product.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="h-auto">
-                    <p>
-                      Category:{" "}
-                      <span className="font-bold">{product.category}</span>
-                    </p>
-                    <p>
-                      Price: <span className="font-bold">{product.price}</span>{" "}
-                      ETH
-                    </p>
-                  </CardContent>
-                  <CardFooter className="flex flex-col gap-2 w-full">
-                    <Button className="bg-black text-white w-[270px] ">
-                      <Link href={`/shop/${product.id}`}>
-                        View Product Details
-                      </Link>
-                    </Button>
-                    <Button className="bg-[blue] text-white w-[270px] ">
-                      Buy Product
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
+            <ProductCard result={plainResult} />
           </div>
           <Toaster />
         </div>

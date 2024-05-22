@@ -17,9 +17,9 @@ export default function RootLayout({ children }) {
         <body className={"background-light850_dark100 relative"}>
           <Header />
 
-          {children}
-          <Footer />
+          <main>{children}</main>
           <Toaster />
+          <Footer />
         </body>
       </ThemeProvider>
       <ChatbotScript />
