@@ -132,7 +132,7 @@ const page = () => {
               label="certifications"
               variant="outlined"
               className="w-[90%] "
-              value={productData.location}
+              value={productData.certifications}
               onChange={(e) =>
                 setProductData({
                   ...productData,

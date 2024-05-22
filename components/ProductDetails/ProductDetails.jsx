@@ -29,7 +29,7 @@ const ProductDetails = ({ product }) => {
     <div>
       <h1 className="font-bold text-3xl">{product?.name}</h1>
       <img
-        src={product?.image}
+        src={product?.selectedFile}
         alt="image"
         className="w-[500px] h-[400px] mt-4 mb-3 rounded-md"
       />
