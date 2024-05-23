@@ -4,8 +4,10 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { deleteProduct } from "@/lib/action/product.action";
 import { useToast } from "../ui/use-toast";
+import { usePathname } from "next/navigation";
 
 const ProductDetails = ({ product }) => {
+  const path = usePathname();
   const { toast } = useToast();
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -13,7 +15,7 @@ const ProductDetails = ({ product }) => {
     e.preventDefault();
     setIsDeleting(true);
     try {
-      await deleteProduct({ productId: product._id });
+      await deleteProduct({ productId: product._id, path: path });
       router.push("/shop");
       toast({
         className:

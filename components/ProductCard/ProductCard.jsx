@@ -13,12 +13,15 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { ethers } from "ethers";
 import { useToast } from "../ui/use-toast";
+import { deleteProduct } from "@/lib/action/product.action";
+import { usePathname } from "next/navigation";
 
 const ProductCard = ({ result }) => {
+  const path = usePathname();
   const { isConnected, address, signer, price, category, location } =
     useTheme();
   const { toast } = useToast();
-  async function execute() {
+  const execute = async (productId) => {
     if (typeof window.ethereum !== "undefined") {
       const contractAddress = address;
       const abi = [
@@ -118,6 +121,7 @@ const ProductCard = ({ result }) => {
             "dark:text-white dark:bg-black bg-white text-[green] font-bold",
           description: "Payment Succeeded",
         });
+        await deleteProduct({ productId: productId, path: path });
       } catch (error) {
         console.log(error);
         toast({
@@ -129,7 +133,7 @@ const ProductCard = ({ result }) => {
     } else {
       console.log("Please install MetaMask");
     }
-  }
+  };
   const filteredResults = result?.filter((product) => {
     const matchesPrice = price ? product.price[0] === price : false;
     const matchesCategory = category ? product.category === category : false;
@@ -190,7 +194,7 @@ const ProductCard = ({ result }) => {
                 {isConnected ? (
                   <Button
                     className="bg-[blue]  text-white rounded-md w-full"
-                    onClick={() => execute()}
+                    onClick={() => execute(product._id)}
                   >
                     Buy Product
                   </Button>
@@ -233,7 +237,9 @@ const ProductCard = ({ result }) => {
                 {isConnected ? (
                   <Button
                     className="bg-[blue]  text-white rounded-md w-full"
-                    onClick={() => execute()}
+                    onClick={() => {
+                      execute(product._id);
+                    }}
                   >
                     Buy Product
                   </Button>
