@@ -3,14 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Theme from "../NavBar/Theme";
-import { Alchemy, Network } from "alchemy-sdk";
 import { ethers } from "ethers";
 import { useTheme } from "@/context/ThemeProvider";
 
-const settings = {
-  apiKey: process.env.ALCHEMY_API_KEY,
-  network: Network.ETH_SEPOLIA,
-};
 const Header = () => {
   const {
     address,
@@ -40,10 +35,11 @@ const Header = () => {
         const sign = provider.getSigner();
         setSigner(sign);
         setAddress(await sign.getAddress());
-        setBalance((await sign.getBalance())._hex);
+        const hexBalance = parseInt((await sign.getBalance())._hex, 16);
+        setBalance(hexBalance.toString().substring(0, 3));
         // console.log('here is the address', await sign.getAddress())
-        // console.log('here is the balance', (await sign.getBalance())._hex)
-        console.log("here is the balance", sign);
+        // console.log("here is the balance", await sign.getBalance());
+        // console.log("here is the sign", sign);
       } catch (error) {
         console.log(error);
       }
@@ -51,112 +47,113 @@ const Header = () => {
       setIsConnected(false);
     }
   }
-  async function execute() {
-    if (typeof window.ethereum !== "undefined") {
-      const contractAddress = address;
-      const abi = [
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "_name",
-              type: "string",
-            },
-            {
-              internalType: "uint256",
-              name: "_favoriteNumber",
-              type: "uint256",
-            },
-          ],
-          name: "addPerson",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          name: "nameToFavoriteNumber",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "people",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "favoriteNumber",
-              type: "uint256",
-            },
-            {
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "retrieve",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_favoriteNumber",
-              type: "uint256",
-            },
-          ],
-          name: "store",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ];
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      try {
-        await contract.store(42);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log("Please install MetaMask");
-    }
-  }
+  // async function execute() {
+  //   if (typeof window.ethereum !== "undefined") {
+  //     const contractAddress = address;
+  //     const abi = [
+  //       {
+  //         inputs: [
+  //           {
+  //             internalType: "string",
+  //             name: "_name",
+  //             type: "string",
+  //           },
+  //           {
+  //             internalType: "uint256",
+  //             name: "_favoriteNumber",
+  //             type: "uint256",
+  //           },
+  //         ],
+  //         name: "addPerson",
+  //         outputs: [],
+  //         stateMutability: "nonpayable",
+  //         type: "function",
+  //       },
+  //       {
+  //         inputs: [
+  //           {
+  //             internalType: "string",
+  //             name: "",
+  //             type: "string",
+  //           },
+  //         ],
+  //         name: "nameToFavoriteNumber",
+  //         outputs: [
+  //           {
+  //             internalType: "uint256",
+  //             name: "",
+  //             type: "uint256",
+  //           },
+  //         ],
+  //         stateMutability: "view",
+  //         type: "function",
+  //       },
+  //       {
+  //         inputs: [
+  //           {
+  //             internalType: "uint256",
+  //             name: "",
+  //             type: "uint256",
+  //           },
+  //         ],
+  //         name: "people",
+  //         outputs: [
+  //           {
+  //             internalType: "uint256",
+  //             name: "favoriteNumber",
+  //             type: "uint256",
+  //           },
+  //           {
+  //             internalType: "string",
+  //             name: "name",
+  //             type: "string",
+  //           },
+  //         ],
+  //         stateMutability: "view",
+  //         type: "function",
+  //       },
+  //       {
+  //         inputs: [],
+  //         name: "retrieve",
+  //         outputs: [
+  //           {
+  //             internalType: "uint256",
+  //             name: "",
+  //             type: "uint256",
+  //           },
+  //         ],
+  //         stateMutability: "view",
+  //         type: "function",
+  //       },
+  //       {
+  //         inputs: [
+  //           {
+  //             internalType: "uint256",
+  //             name: "_favoriteNumber",
+  //             type: "uint256",
+  //           },
+  //         ],
+  //         name: "store",
+  //         outputs: [],
+  //         stateMutability: "nonpayable",
+  //         type: "function",
+  //       },
+  //     ];
+  //     const contract = new ethers.Contract(contractAddress, abi, signer);
+  //     try {
+  //       await contract.store(42);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   } else {
+  //     console.log("Please install MetaMask");
+  //   }
+  // }
   return (
-    <nav className="flex justify-between  z-50 w-full gap-5 p-6  sm:px-12 bg-black text-white">
+    <nav className="flex justify-between  z-50 w-full gap-5 p-6  sm:px-12 dark:bg-black dark:text-white bg-white text-black font-bold">
       <Link href="/" className="flex items-center gap-1">
         <Image
+          className="invert dark:invert-0"
           src="/assets/images/logo.png"
           width={70}
           height={50}
@@ -199,7 +196,7 @@ const Header = () => {
             Please install metamask
           </button>
         )}
-        {isConnected ? (
+        {/* {isConnected ? (
           <button
             className="bg-[#e0c945] p-2 text-white rounded-md font-sans"
             onClick={() => execute()}
@@ -208,7 +205,7 @@ const Header = () => {
           </button>
         ) : (
           ""
-        )}
+        )} */}
         <Theme />
       </div>
     </nav>

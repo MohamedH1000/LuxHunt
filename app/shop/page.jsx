@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getProducts } from "@/lib/action/product.action";
 import { Toaster } from "@/components/ui/toaster";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import Filters from "@/components/Filters/Filters";
 const Pieces = async () => {
   const result = await getProducts({});
   const plainResult = JSON.parse(JSON.stringify(result));
@@ -21,9 +22,7 @@ const Pieces = async () => {
         </div>
       ) : (
         <div className="flex max-md:flex-col gap-5 xl:px-[100px] lg:px-[50px] py-[70px] max-md:px-[20px]">
-          <div className="lg:w-[25%] border-r-[1px] border-gray-300 text-2xl font-bold max-md:border-none">
-            Product Filters
-          </div>
+          <Filters result={plainResult} />
           <div className="flex flex-col gap-5">
             <h4 className="text-xl font-bold">Products</h4>
             <ProductCard result={plainResult} />

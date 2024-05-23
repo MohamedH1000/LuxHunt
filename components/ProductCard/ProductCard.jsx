@@ -12,9 +12,12 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { ethers } from "ethers";
+import { useToast } from "../ui/use-toast";
 
 const ProductCard = ({ result }) => {
-  const { isConnected, address, signer } = useTheme();
+  const { isConnected, address, signer, price, category, location } =
+    useTheme();
+  const { toast } = useToast();
   async function execute() {
     if (typeof window.ethereum !== "undefined") {
       const contractAddress = address;
@@ -110,51 +113,136 @@ const ProductCard = ({ result }) => {
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
         await contract.store(42);
+        toast({
+          className:
+            "dark:text-white dark:bg-black bg-white text-[green] font-bold",
+          description: "Payment Succeeded",
+        });
       } catch (error) {
         console.log(error);
+        toast({
+          className:
+            "dark:text-white dark:bg-black bg-white text-[red] font-bold",
+          description: "Payment Failed",
+        });
       }
     } else {
       console.log("Please install MetaMask");
     }
   }
+  const filteredResults = result?.filter((product) => {
+    const matchesPrice = price ? product.price[0] === price : false;
+    const matchesCategory = category ? product.category === category : false;
+    const matchesLocation = location
+      ? product.location[0].toString() === location
+      : false;
+    if (matchesPrice && matchesCategory && matchesLocation) {
+      return matchesPrice && matchesCategory && matchesLocation;
+    } else if (
+      (matchesPrice && matchesCategory) ||
+      (matchesCategory && matchesLocation) ||
+      (matchesPrice && matchesLocation)
+    ) {
+      return (
+        (matchesPrice && matchesCategory) ||
+        (matchesCategory && matchesLocation) ||
+        (matchesPrice && matchesLocation)
+      );
+    } else if (matchesPrice || matchesCategory || matchesLocation) {
+      return matchesPrice || matchesCategory || matchesLocation;
+    } else {
+      return false;
+    }
+  });
   return (
     <div className="flex flex-wrap gap-3">
-      {result?.map((product, i) => (
-        <Card className="p-2 w-[300px] relative" key={i}>
-          <CardHeader>
-            <img
-              src={product?.selectedFile}
-              alt="image"
-              className="rounded-md"
-            />
-            <CardTitle>{product.name}</CardTitle>
-            <CardDescription>{product.description}</CardDescription>
-          </CardHeader>
-          <CardContent className="h-auto">
-            <p>
-              Category: <span className="font-bold">{product.category}</span>
-            </p>
-            <p>
-              Price: <span className="font-bold">{product.price}</span> ETH
-            </p>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-2 w-full">
-            <Button className="bg-black text-white w-full ">
-              <Link href={`/shop/${product._id}`}>View Product Details</Link>
-            </Button>
-            {isConnected ? (
-              <Button
-                className="bg-[blue]  text-white rounded-md w-full"
-                onClick={() => execute()}
-              >
-                Buy Product
-              </Button>
-            ) : (
-              ""
-            )}
-          </CardFooter>
-        </Card>
-      ))}
+      {filteredResults.length > 0
+        ? filteredResults?.map((product, i) => (
+            <Card className="p-2 w-[300px] relative" key={i}>
+              <CardHeader>
+                <img
+                  src={product?.selectedFile}
+                  alt="image"
+                  className="rounded-md"
+                />
+                <CardTitle className="">{product.name}</CardTitle>
+                <CardDescription>{product.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="h-auto">
+                <p>
+                  Category:{" "}
+                  <span className="font-bold">{product.category}</span>
+                </p>
+                <p>
+                  Location:{" "}
+                  <span className="font-bold">{product.location}</span>
+                </p>
+                <p>
+                  Price: <span className="font-bold">{product.price}</span> ETH
+                </p>
+              </CardContent>
+              <CardFooter className="flex flex-col gap-2 w-full">
+                <Button className="bg-black text-white w-full ">
+                  <Link href={`/shop/${product._id}`}>
+                    View Product Details
+                  </Link>
+                </Button>
+                {isConnected ? (
+                  <Button
+                    className="bg-[blue]  text-white rounded-md w-full"
+                    onClick={() => execute()}
+                  >
+                    Buy Product
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </CardFooter>
+            </Card>
+          ))
+        : result?.map((product, i) => (
+            <Card className="p-2 w-[300px] relative" key={i}>
+              <CardHeader>
+                <img
+                  src={product?.selectedFile}
+                  alt="image"
+                  className="rounded-md"
+                />
+                <CardTitle>{product.name}</CardTitle>
+                <CardDescription>{product.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="h-auto">
+                <p>
+                  Category:{" "}
+                  <span className="font-bold">{product.category}</span>
+                </p>
+                <p>
+                  Location:{" "}
+                  <span className="font-bold">{product.location}</span>
+                </p>
+                <p>
+                  Price: <span className="font-bold">{product.price}</span> $
+                </p>
+              </CardContent>
+              <CardFooter className="flex flex-col gap-2 w-full">
+                <Button className="dark:bg-black dark:text-white w-full text-black bg-white border-[2px] border-[gray] dark:border-none">
+                  <Link href={`/shop/${product._id}`}>
+                    View Product Details
+                  </Link>
+                </Button>
+                {isConnected ? (
+                  <Button
+                    className="bg-[blue]  text-white rounded-md w-full"
+                    onClick={() => execute()}
+                  >
+                    Buy Product
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </CardFooter>
+            </Card>
+          ))}
     </div>
   );
 };

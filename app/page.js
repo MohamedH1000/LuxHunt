@@ -1,5 +1,3 @@
-import Image from "next/image";
-import backGroundImage from "../public/assets/images/background.jpg";
 import "./globals.css";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -11,7 +9,7 @@ export default function Home() {
         <p className="text-3xl font-bold text-white max-sm:text-[20px]">
           Welcome to LuxHunt Store
         </p>
-        <Button className="bg-black text-white mt-10 hover:opacity-90">
+        <Button className="dark:bg-black dark:text-white mt-10 hover:opacity-90 text-black bg-white">
           <Link href="/shop">Shop Now</Link>
         </Button>
       </div>

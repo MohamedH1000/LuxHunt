@@ -14,12 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <ThemeProvider>
-        <body className={"background-light850_dark100 relative"}>
+        <body className={" relative"}>
           <Header />
-
           <main>{children}</main>
-          <Toaster />
           <Footer />
+          <Toaster />
         </body>
       </ThemeProvider>
       <ChatbotScript />

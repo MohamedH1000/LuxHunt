@@ -11,6 +11,9 @@ export function ThemeProvider({ children }) {
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(null);
   const [signer, setSigner] = useState(null);
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [price, setPrice] = useState(null);
 
   const handleThemeChange = () => {
     if (
@@ -45,6 +48,12 @@ export function ThemeProvider({ children }) {
         setBalance,
         signer,
         setSigner,
+        category,
+        setCategory,
+        price,
+        setPrice,
+        location,
+        setLocation,
       }}
     >
       {children}

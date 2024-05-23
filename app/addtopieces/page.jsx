@@ -7,11 +7,10 @@ import FileBase64 from "react-file-base64";
 import { createProduct } from "@/lib/action/product.action";
 import { useRouter, usePathname } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster";
 
 const page = () => {
   const router = useRouter();
-  const toast = useToast();
+  const { toast } = useToast();
   const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [productData, setProductData] = useState({
@@ -30,6 +29,7 @@ const page = () => {
   console.log(productData);
 
   const clear = (e) => {
+    e.preventDefault();
     setProductData({
       name: "",
       category: "",
@@ -38,10 +38,9 @@ const page = () => {
       location: "",
       certifications: "",
       warranty: "",
-      return: "",
+      returnDuration: "",
       selectedFile: "",
     });
-    e.preventDefault();
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,6 +49,8 @@ const page = () => {
       await createProduct(productData);
       router.push("/shop");
       toast({
+        className:
+          "font-bold text-[green] bg-white dark:bg-black dark:text-white",
         description: "Your Product is added successfully",
       });
     } catch (error) {
@@ -60,7 +61,6 @@ const page = () => {
   };
   return (
     <div className="p-20 min-h-[90vh] max-md:p-2 flex justify-center items-start">
-      <Toaster />
       <div className=" w-[40%] max-md:w-[80%]">
         <Paper elevation={3} className="px-2 py-4">
           <h1 className="text-center font-bold text-2xl mb-5">
@@ -130,6 +130,8 @@ const page = () => {
             <TextField
               name="certifications"
               label="certifications"
+              type="file"
+              focused
               variant="outlined"
               className="w-[90%] "
               value={productData.certifications}
