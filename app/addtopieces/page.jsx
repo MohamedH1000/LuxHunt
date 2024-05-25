@@ -26,8 +26,6 @@ const page = () => {
     path: pathname,
   });
 
-  console.log(productData);
-
   const clear = (e) => {
     e.preventDefault();
     setProductData({
@@ -61,7 +59,7 @@ const page = () => {
   };
   return (
     <div className="p-20 min-h-[90vh] max-md:p-2 flex justify-center items-start">
-      <div className=" w-[40%] max-md:w-[80%]">
+      <div className=" w-[40%] max-md:w-[80%] ">
         <Paper elevation={3} className="px-2 py-4">
           <h1 className="text-center font-bold text-2xl mb-5">
             Add your piece

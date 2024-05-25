@@ -182,7 +182,7 @@ const ProductCard = ({ result }) => {
                   <span className="font-bold">{product.location}</span>
                 </p>
                 <p>
-                  Price: <span className="font-bold">{product.price}</span> ETH
+                  Price: <span className="font-bold">{product.price}</span> $
                 </p>
               </CardContent>
               <CardFooter className="flex flex-col gap-2 w-full">
@@ -236,7 +236,7 @@ const ProductCard = ({ result }) => {
                 </Button>
                 {isConnected ? (
                   <Button
-                    className="bg-[blue]  text-white rounded-md w-full"
+                    className="bg-[blue] text-white rounded-md w-full"
                     onClick={() => {
                       execute(product._id);
                     }}

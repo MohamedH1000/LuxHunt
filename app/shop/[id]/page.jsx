@@ -10,7 +10,7 @@ const page = async ({ params }) => {
   const plainProduct = JSON?.parse(JSON?.stringify(product));
 
   return (
-    <div className="min-h-[90vh] px-[150px] py-[50px]">
+    <div className="min-h-[90vh] px-[150px] py-[50px] max-md:px-2 max-md:py-2">
       <ProductDetails product={plainProduct} />
     </div>
   );
