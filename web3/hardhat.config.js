@@ -24,6 +24,11 @@ module.exports = {
       chainId: 324,
       zksync: true,
     },
+    hardhat: {},
+    sepolia: {
+      url: "https://base-sepolia.g.alchemy.com/v2/Z2KMGfdetZi_ZUpJ2oQaZdMr2pIkZ8I7",
+      accounts: `0xbb92d80c8a8404d822b48d95d457c8ce86a808fe5562ce0d4dcf6279e66bd9c0`,
+    },
   },
   paths: {
     artifacts: "./artifacts-zk",
@@ -33,6 +38,7 @@ module.exports = {
   },
   solidity: {
     version: "0.8.17",
+    defaultNetwork: "sepolia",
     settings: {
       optimizer: {
         enabled: true,
