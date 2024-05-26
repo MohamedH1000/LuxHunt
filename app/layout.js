@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <ThemeProvider>
-        <body className={" relative"}>
+        <body className={"relative"}>
           <Header />
           <main>{children}</main>
           <Footer />
